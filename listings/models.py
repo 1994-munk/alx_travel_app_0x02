@@ -36,3 +36,18 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review {self.rating}/5 for {self.listing.title} by {self.reviewer_name}"
+
+#to track all payment data.
+class Payment(models.Model):
+    booking_reference = models.CharField(max_length=100)
+    transaction_id = models.CharField(max_length=100, unique=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(
+        max_length=20,
+        choices=[("Pending", "Pending"), ("Completed", "Completed"), ("Failed", "Failed")],
+        default="Pending"
+    )
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.booking_reference} - {self.status}"
